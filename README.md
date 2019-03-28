@@ -9,4 +9,4 @@
 ## Proposal
 * We are planning to create a visual dashboard with multiple charts. We want our project to have two pages showing the following:
 1. Listing Information by Neighborhood (Page 1)
-2. Host Information Separating Hosts into Superhosts and Non Superhosts
+2. Host Information Separating Hosts into Superhosts and Non Superhosts (Page 2)
