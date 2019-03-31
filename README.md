@@ -13,7 +13,7 @@
           * https://plot.ly/javascript/pie-charts/
      3. A boxplot showing the distribution of review scores per listing
           * https://plot.ly/javascript/box-plots/
-     4. A histogram showing the prices of the listings in the neighborhoods and another histogram showing the numbers of days of availability over the next year
+     4. A histogram showing the prices of the listings in the neighborhoods
           * https://plot.ly/javascript/histograms/
      5. Create wordclouds of the review comments for each neighborhood
           * https://www.zingchart.com/docs/chart-types/wordcloud/
