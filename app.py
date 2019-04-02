@@ -64,7 +64,7 @@ def pricesummary(neighborhood):
 
 @app.route("/bedroomssummary/<neighborhood>")
 def bedroomssummary(neighborhood):
-    listings_data = pd.read_sql("SELECT * FROM listings WHERE bedrooms IS NOT NULL",engine)
+    listings_data = pd.read_sql("SELECT * FROM listings",engine)
     listings_data_grouped = listings_data.loc[(listings_data["neighbourhood_group_cleansed"] == neighborhood),:]
     mean_bedrooms = listings_data_grouped["bedrooms"].mean()
     quartile_1_bedrooms = listings_data_grouped["bedrooms"].quantile(q=0.25)
