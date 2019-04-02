@@ -1,12 +1,10 @@
 import os
-
 import pandas as pd
 import numpy as np
-
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine,inspect
 
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
@@ -20,6 +18,8 @@ app = Flask(__name__)
 #################################################
 # engine = create_engine("sqlite:///db/output/airbnb_data.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/airbnb_data.sqlite"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 # reflect an existing database into a new model
@@ -27,10 +27,15 @@ Base = automap_base()
 # reflect the tables
 Base.prepare(db.engine, reflect=True)
 
+engine = create_engine("sqlite:///db/airbnb_data.sqlite", encoding='utf8')
+conn = engine.connect()
+session = Session(engine)
+
+
 # Save references to each table
-Listings = Base.classes.listings
-Hosts =  Base.classes.airbnb_hosts
-Reviews =  Base.classes.property_reviews
+# Listings = Base.classes.listings
+# Hosts =  Base.classes.airbnb_hosts
+# Reviews =  Base.classes.property_reviews
 
 
 # PART 3 -- FLASK SETUP AND ROUTE CREATION
@@ -40,65 +45,45 @@ def index():
     """Return the homepage."""
     return render_template("index.html")
 
+@app.route("/neighborhoods")
+def neighborhoods():
+    neighborhoods = pd.read_sql("SELECT neighbourhood_group_cleansed FROM listings",engine)
+    neighborhoods_list = neighborhoods['neighbourhood_group_cleansed'].unique()
+    return jsonify(neighborhoods_list.tolist())
 
-@app.route("/listings")
-def listings():
-    """Return a list of Seattle AirBnB listings."""
+@app.route("/pricesummary/<neighborhood>")
+def pricesummary(neighborhood):
+    listings_data = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped = listings_data.loc[(listings_data["neighbourhood_group_cleansed"]== neighborhood),:]
+    mean_price = listings_data_grouped["price"].mean()
+    quartile_1_price = listings_data_grouped["price"].quantile(q=0.25)
+    quartile_2_price = listings_data_grouped["price"].quantile(q=0.5)
+    quartile_3_price = listings_data_grouped["price"].quantile(q=0.75)
+    summary_prices = [quartile_1_price,quartile_2_price,quartile_3_price,mean_price]
+    return jsonify(summary_prices)
 
-    # Use Pandas to perform the sql query
-    stmt = db.session.query(Listings).statement
-    df = pd.read_sql_query(stmt, db.session.bind)
+@app.route("/bedroomssummary/<neighborhood>")
+def bedroomssummary(neighborhood):
+    listings_data = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_2 = listings_data.loc[(listings_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    mean_bedrooms = listings_data_grouped_2["bedrooms"].mean()
+    quartile_1_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.25)
+    quartile_2_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.5)
+    quartile_3_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.75)
+    summary_bedrooms = [quartile_1_bedrooms,quartile_2_bedrooms,quartile_3_bedrooms,mean_bedrooms]
+    return jsonify(mean_bedrooms)
 
-    # Return a list of the column names (sample names)
-    return jsonify(list(df.columns)[2:])
+# @app.route("/bathroomssummary/<neighborhood>")
+# def bathroomssummary(neighborhood):
+#     listings_data = pd.read_sql("SELECT * FROM listings",engine)
+#     listings_data_grouped = listings_data.loc[(listings_data["neighbourhood_group_cleansed"]== neighborhood),:]
+#     mean_bathrooms = listings_data_grouped["bathrooms"].mean()
+#     quartile_1_bathrooms = listings_data_grouped["bathrooms"].quantile(q=0.25)
+#     quartile_2_bathrooms = listings_data_grouped["bathrooms"].quantile(q=0.5)
+#     quartile_3_bathrooms = listings_data_grouped["bathrooms"].quantile(q=0.75)
+#     summary_bathrooms = [quartile_1_bathrooms,quartile_2_bathrooms,quartile_3_bathrooms,mean_bathrooms]
+#     return jsonify(summary_bathrooms)
 
-
-# @app.route("/metadata/<sample>")
-# def sample_metadata(sample):
-#     """Return the MetaData for a given sample."""
-#     sel = [
-#         Samples_Metadata.sample,
-#         Samples_Metadata.ETHNICITY,
-#         Samples_Metadata.GENDER,
-#         Samples_Metadata.AGE,
-#         Samples_Metadata.LOCATION,
-#         Samples_Metadata.BBTYPE,
-#         Samples_Metadata.WFREQ,
-#     ]
-
-    # results = db.session.query(*sel).filter(Samples_Metadata.sample == sample).all()
-
-    # Create a dictionary entry for each row of metadata information
-    # sample_metadata = {}
-    # for result in results:
-    #     sample_metadata["sample"] = result[0]
-    #     sample_metadata["ETHNICITY"] = result[1]
-    #     sample_metadata["GENDER"] = result[2]
-    #     sample_metadata["AGE"] = result[3]
-    #     sample_metadata["LOCATION"] = result[4]
-    #     sample_metadata["BBTYPE"] = result[5]
-    #     sample_metadata["WFREQ"] = result[6]
-
-    # print(sample_metadata)
-    # return jsonify(sample_metadata)
-
-
-# @app.route("/samples/<sample>")
-# def samples(sample):
-#     """Return `otu_ids`, `otu_labels`,and `sample_values`."""
-#     stmt = db.session.query(Samples).statement
-#     df = pd.read_sql_query(stmt, db.session.bind)
-
-    # Filter the data based on the sample number and
-    # only keep rows with values above 1
-    # sample_data = df.loc[df[sample] > 1, ["otu_id", "otu_label", sample]]
-    # Format the data to send as json
-    # data = {
-    #     "otu_ids": sample_data.otu_id.values.tolist(),
-    #     "sample_values": sample_data[sample].values.tolist(),
-    #     "otu_labels": sample_data.otu_label.tolist(),
-    # }
-    # return jsonify(data)
 
 
 if __name__ == "__main__":
