@@ -64,14 +64,14 @@ def pricesummary(neighborhood):
 
 @app.route("/bedroomssummary/<neighborhood>")
 def bedroomssummary(neighborhood):
-    listings_data = pd.read_sql("SELECT * FROM listings",engine)
-    listings_data_grouped_2 = listings_data.loc[(listings_data["neighbourhood_group_cleansed"] == neighborhood),:]
-    mean_bedrooms = listings_data_grouped_2["bedrooms"].mean()
-    quartile_1_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.25)
-    quartile_2_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.5)
-    quartile_3_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.75)
+    listings_data = pd.read_sql("SELECT * FROM listings WHERE bedrooms IS NOT NULL",engine)
+    listings_data_grouped = listings_data.loc[(listings_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    mean_bedrooms = listings_data_grouped["bedrooms"].mean()
+    quartile_1_bedrooms = listings_data_grouped["bedrooms"].quantile(q=0.25)
+    quartile_2_bedrooms = listings_data_grouped["bedrooms"].quantile(q=0.5)
+    quartile_3_bedrooms = listings_data_grouped["bedrooms"].quantile(q=0.75)
     summary_bedrooms = [quartile_1_bedrooms,quartile_2_bedrooms,quartile_3_bedrooms,mean_bedrooms]
-    return jsonify(mean_bedrooms)
+    return jsonify(summary_bedrooms)
 
 # @app.route("/bathroomssummary/<neighborhood>")
 # def bathroomssummary(neighborhood):
