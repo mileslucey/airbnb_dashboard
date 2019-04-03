@@ -150,7 +150,7 @@ d3.json("/neighborhoods").then((neighborhoods) => {
 
 
     // Use the first sample from the list to build the initial plots
-    const firstNeighborhood = neighborhoods[1];
+    const firstNeighborhood = neighborhoods[0];
     // buildCharts(firstSample);
     priceSummaryData(firstNeighborhood);
     bedroomsSummaryData(firstNeighborhood);
