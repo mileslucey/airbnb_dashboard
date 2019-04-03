@@ -64,25 +64,25 @@ def pricesummary(neighborhood):
 
 @app.route("/bedroomssummary/<neighborhood>")
 def bedroomssummary(neighborhood):
-    listings_data = pd.read_sql("SELECT * FROM listings",engine)
-    listings_data_grouped = listings_data.loc[(listings_data["neighbourhood_group_cleansed"] == neighborhood),:]
-    mean_bedrooms = listings_data_grouped["bedrooms"].mean()
-    quartile_1_bedrooms = listings_data_grouped["bedrooms"].quantile(q=0.25)
-    quartile_2_bedrooms = listings_data_grouped["bedrooms"].quantile(q=0.5)
-    quartile_3_bedrooms = listings_data_grouped["bedrooms"].quantile(q=0.75)
+    listings_data_2 = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_2 = listings_data_2.loc[(listings_data_2["neighbourhood_group_cleansed"]== neighborhood),:]
+    mean_bedrooms = listings_data_grouped_2["bedrooms"].mean()
+    quartile_1_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.25)
+    quartile_2_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.5)
+    quartile_3_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.75)
     summary_bedrooms = [quartile_1_bedrooms,quartile_2_bedrooms,quartile_3_bedrooms,mean_bedrooms]
     return jsonify(summary_bedrooms)
 
-# @app.route("/bathroomssummary/<neighborhood>")
-# def bathroomssummary(neighborhood):
-#     listings_data = pd.read_sql("SELECT * FROM listings",engine)
-#     listings_data_grouped = listings_data.loc[(listings_data["neighbourhood_group_cleansed"]== neighborhood),:]
-#     mean_bathrooms = listings_data_grouped["bathrooms"].mean()
-#     quartile_1_bathrooms = listings_data_grouped["bathrooms"].quantile(q=0.25)
-#     quartile_2_bathrooms = listings_data_grouped["bathrooms"].quantile(q=0.5)
-#     quartile_3_bathrooms = listings_data_grouped["bathrooms"].quantile(q=0.75)
-#     summary_bathrooms = [quartile_1_bathrooms,quartile_2_bathrooms,quartile_3_bathrooms,mean_bathrooms]
-#     return jsonify(summary_bathrooms)
+@app.route("/bathroomssummary/<neighborhood>")
+def bathroomssummary(neighborhood):
+    listings_data_3 = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_3 = listings_data_3.loc[(listings_data_3["neighbourhood_group_cleansed"]== neighborhood),:]
+    mean_bathrooms = listings_data_grouped_3["bathrooms"].mean()
+    quartile_1_bathrooms = listings_data_grouped_3["bathrooms"].quantile(q=0.25)
+    quartile_2_bathrooms = listings_data_grouped_3["bathrooms"].quantile(q=0.5)
+    quartile_3_bathrooms = listings_data_grouped_3["bathrooms"].quantile(q=0.75)
+    summary_bathrooms = [quartile_1_bathrooms,quartile_2_bathrooms,quartile_3_bathrooms,mean_bathrooms]
+    return jsonify(summary_bathrooms)
 
 
 
