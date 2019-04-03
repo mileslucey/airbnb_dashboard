@@ -1,26 +1,81 @@
-// function buildMetadata(sample) {
+function priceSummaryData(neighborhood) {
 
-//   // @TODO: Complete the following function that builds the metadata panel
-//   // Use `d3.json` to fetch the metadata for a sample
-//   var url = `/metadata/${sample}`;
-//   d3.json(url).then(function(sample){
-      
-//     // Use d3 to select the panel with id of `#sample-metadata`
-//     var sample_metadata = d3.select("#sample-metadata");
+    // @TODO: Complete the following function that builds the metadata panel
+    // Use `d3.json` to fetch the metadata for a sample
+    var url = `/pricesummary/${neighborhood}`;
+    d3.json(url).then(function(neighborhood){
+        
+      // Use d3 to select the panel with id of `#sample-metadata`
+      var pricesummary = d3.select("#price-summary");
+  
+      // Use `.html("") to clear any existing metadata
+      pricesummary.html("");
+        
+      // Use `Object.entries` to add each key and value pair to the panel
+      // Hint: Inside the loop, you will need to use d3 to append new
+      // tags for each key-value in the metadata.
+      Object.entries(neighborhood).forEach(function ([key, value]) {
+        var row = pricesummary.append("p");
+        row.text(`${key}: ${value}`);
+      });
+    }
+  );
+  }
 
-//     // Use `.html("") to clear any existing metadata
-//     sample_metadata.html("");
-      
-//     // Use `Object.entries` to add each key and value pair to the panel
-//     // Hint: Inside the loop, you will need to use d3 to append new
-//     // tags for each key-value in the metadata.
-//     Object.entries(sample).forEach(function ([key, value]) {
-//       var row = sample_metadata.append("p");
-//       row.text(`${key}: ${value}`);
-//     });
-//   }
-// );
-// }
+  function bedroomsSummaryData(neighborhood) {
+
+    // @TODO: Complete the following function that builds the metadata panel
+    // Use `d3.json` to fetch the metadata for a sample
+    var url_2 = `/bedroomssummary/${neighborhood}`;
+    d3.json(url_2).then(function(neighborhood){
+        
+      // Use d3 to select the panel with id of `#sample-metadata`
+      var bedroomssummary = d3.select("#bedrooms-summary");
+  
+      // Use `.html("") to clear any existing metadata
+      bedroomssummary.html("");
+        
+      // Use `Object.entries` to add each key and value pair to the panel
+      // Hint: Inside the loop, you will need to use d3 to append new
+      // tags for each key-value in the metadata.
+      Object.entries(neighborhood).forEach(function ([key, value]) {
+        var row = bedroomssummary.append("p");
+        row.text(`${key}: ${value}`);
+      });
+    }
+  );
+  }
+
+  function bathroomsSummaryData(neighborhood) {
+
+    // @TODO: Complete the following function that builds the metadata panel
+    // Use `d3.json` to fetch the metadata for a sample
+    var url_2 = `/bathroomssummary/${neighborhood}`;
+    d3.json(url_2).then(function(neighborhood){
+        
+      // Use d3 to select the panel with id of `#sample-metadata`
+      var bathroomssummary = d3.select("#bathrooms-summary");
+  
+      // Use `.html("") to clear any existing metadata
+      bathroomssummary.html("");
+        
+      // Use `Object.entries` to add each key and value pair to the panel
+      // Hint: Inside the loop, you will need to use d3 to append new
+      // tags for each key-value in the metadata.
+      Object.entries(neighborhood).forEach(function ([key, value]) {
+        var row = bathroomssummary.append("p");
+        row.text(`${key}: ${value}`);
+      });
+    }
+  );
+  }
+
+
+
+
+
+
+
 
 // function buildCharts(sample) {
 
@@ -79,19 +134,40 @@
 // }
 
 
-// function init() {
+function init() {
   
 //     // Grab a reference to the dropdown select element
-//   var selector = d3.select("#selDataset");
+var selector = d3.select("#selNeighborhood");
 
-//   // Use the list of sample names to populate the select options
-//   d3.json("/names").then((sampleNames) => {
-//     sampleNames.forEach((sample) => {
-//       selector
-//         .append("option")
-//         .text(sample)
-//         .property("value", sample);
-//     });
+// Use the list of sample names to populate the select options
+d3.json("/neighborhoods").then((neighborhoods) => {
+  neighborhoods.forEach((neighborhood) => {
+    selector
+      .append("option")
+      .text(neighborhood)
+      .property("value", neighborhood);
+  });
+
+
+    // Use the first sample from the list to build the initial plots
+    const firstNeighborhood = neighborhoods[1];
+    // buildCharts(firstSample);
+    priceSummaryData(firstNeighborhood);
+    bedroomsSummaryData(firstNeighborhood);
+    bathroomsSummaryData(firstNeighborhood);
+  });
+}
+
+
+function optionChanged(newNeighborhood) {
+    
+    // Fetch new data each time a new sample is selected
+    // buildCharts(newSample);
+    priceSummaryData(newNeighborhood);
+    bedroomsSummaryData(newNeighborhood);
+    bathroomsSummaryData(newNeighborhood);
+  }
+
 
 //     // Use the first sample from the list to build the initial plots
 //     const firstSample = sampleNames[0];
@@ -100,12 +176,5 @@
 //   });
 // }
 
-// function optionChanged(newSample) {
-    
-//   // Fetch new data each time a new sample is selected
-//   buildCharts(newSample);
-//   buildMetadata(newSample);
-// }
-
 // Initialize the dashboard
-// init();
+init();

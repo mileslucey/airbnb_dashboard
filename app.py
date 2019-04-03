@@ -39,6 +39,7 @@ session = Session(engine)
 
 
 # PART 3 -- FLASK SETUP AND ROUTE CREATION
+percentile_keys = ["25th Percentile", "50th Percentile", "75th Percentile", "Mean"]
 
 @app.route("/")
 def index():
@@ -60,7 +61,8 @@ def pricesummary(neighborhood):
     quartile_2_price = listings_data_grouped["price"].quantile(q=0.5)
     quartile_3_price = listings_data_grouped["price"].quantile(q=0.75)
     summary_prices = [quartile_1_price,quartile_2_price,quartile_3_price,mean_price]
-    return jsonify(summary_prices)
+    summary_prices_dictionary = dict(zip(percentile_keys,summary_prices))
+    return jsonify(summary_prices_dictionary)
 
 @app.route("/bedroomssummary/<neighborhood>")
 def bedroomssummary(neighborhood):
@@ -71,7 +73,8 @@ def bedroomssummary(neighborhood):
     quartile_2_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.5)
     quartile_3_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.75)
     summary_bedrooms = [quartile_1_bedrooms,quartile_2_bedrooms,quartile_3_bedrooms,mean_bedrooms]
-    return jsonify(summary_bedrooms)
+    summary_bedrooms_dictionary = dict(zip(percentile_keys,summary_bedrooms))
+    return jsonify(summary_bedrooms_dictionary)
 
 @app.route("/bathroomssummary/<neighborhood>")
 def bathroomssummary(neighborhood):
@@ -82,7 +85,8 @@ def bathroomssummary(neighborhood):
     quartile_2_bathrooms = listings_data_grouped_3["bathrooms"].quantile(q=0.5)
     quartile_3_bathrooms = listings_data_grouped_3["bathrooms"].quantile(q=0.75)
     summary_bathrooms = [quartile_1_bathrooms,quartile_2_bathrooms,quartile_3_bathrooms,mean_bathrooms]
-    return jsonify(summary_bathrooms)
+    summary_bathrooms_dictionary = dict(zip(percentile_keys,summary_bathrooms))
+    return jsonify(summary_bathrooms_dictionary)
 
 
 
