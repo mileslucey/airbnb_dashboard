@@ -11,7 +11,7 @@
      1. A table showing the 25th, 50th, and 75th percentile and mean price, number of bedrooms, and number of bathrooms of listings in each neighborhood 
      2. Pie Charts showing percent of listing with different room types (e.g. room, entire house, etc) and with different cancellation policies (moderate, strict, flexible, etc.)
           * https://plot.ly/javascript/pie-charts/
-     3. A boxplot showing the distribution of review scores per listing
+     3. A boxplot showing the distribution of review scores for each neighborhood's listings
           * https://plot.ly/javascript/box-plots/
      4. A histogram showing the prices of the listings in the neighborhoods
           * https://plot.ly/javascript/histograms/
