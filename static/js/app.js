@@ -1,3 +1,5 @@
+// var chart_color = "blue";
+// var neighborhood = "Downtown"
 function priceSummaryData(neighborhood) {
 
     // @TODO: Complete the following function that builds the metadata panel
@@ -50,8 +52,8 @@ function priceSummaryData(neighborhood) {
 
     // @TODO: Complete the following function that builds the metadata panel
     // Use `d3.json` to fetch the metadata for a sample
-    var url_2 = `/bathroomssummary/${neighborhood}`;
-    d3.json(url_2).then(function(neighborhood){
+    var url_3 = `/bathroomssummary/${neighborhood}`;
+    d3.json(url_3).then(function(neighborhood){
         
       // Use d3 to select the panel with id of `#sample-metadata`
       var bathroomssummary = d3.select("#bathrooms-summary");
@@ -70,47 +72,36 @@ function priceSummaryData(neighborhood) {
   );
   }
 
-
-
-
-
-
-
-
-// function buildCharts(sample) {
+function buildHistogram(neighborhood) {
 
 //   // @TODO: Use `d3.json` to fetch the sample data for the plots
-//   var url = `/samples/${sample}`;
-//   d3.json(url).then(function(data) {
-
-//     // @TODO: Build a Bubble Chart using the sample data
-//     var x_values_bubble = data.otu_ids;
-//     var y_values_bubble = data.sample_values;
-//     var m_size = data.sample_values;
-//     var m_colors = data.otu_ids; 
-//     var t_values = data.otu_labels;
+  var url_4 = `/pricelist/${neighborhood}`;
+  d3.json(url_4).then(function(data) {
     
-//     //    Create a trace and declare is as the data variable
-//     var trace1 = {
-//       x: x_values_bubble,
-//       y: y_values_bubble,
-//       text: t_values,
-//       mode: 'markers',
-//       marker: {
-//         color: m_colors,
-//         size: m_size
-//       } 
-//     };
-//     var data = [trace1];
+    // @TODO: Build a Histogram using the sample data
+    var prices = data;
+    
+    //  Create a trace and declare is as the data variable
+    var trace1 = {
+      x: prices,
+      type: "histogram",
+      marker:{
+        // color: "lightblue"
+      }
+    };
+    var data = [trace1];
+
+    var layout = {
+      title: "Distribution of Listing Prices", 
+      xaxis: {title: "Listing Prices (USD)"}, 
+      yaxis: {title: "Frequency"}
+    };
       
-// //      Add an xaxis label
-//     var layout = {
-//       xaxis: { title: "OTU ID"},
-//     };
-      
-// //    Create the bubble chart
-//     Plotly.newPlot('bubble', data, layout);
-   
+    //  Create the bubble chart
+    Plotly.newPlot('histogram', data, layout);
+  });
+}
+  
 
 //     // @TODO: Build a Pie Chart
 //     d3.json(url).then(function(data) {
@@ -155,6 +146,7 @@ d3.json("/neighborhoods").then((neighborhoods) => {
     priceSummaryData(firstNeighborhood);
     bedroomsSummaryData(firstNeighborhood);
     bathroomsSummaryData(firstNeighborhood);
+    buildHistogram(firstNeighborhood);
   });
 }
 
@@ -166,15 +158,22 @@ function optionChanged(newNeighborhood) {
     priceSummaryData(newNeighborhood);
     bedroomsSummaryData(newNeighborhood);
     bathroomsSummaryData(newNeighborhood);
+    buildHistogram(newNeighborhood);
   }
 
-
-//     // Use the first sample from the list to build the initial plots
-//     const firstSample = sampleNames[0];
-//     buildCharts(firstSample);
-//     buildMetadata(firstSample);
-//   });
+// if (neighborhood == "Downtown") {
+//   chart_color = "blue";
 // }
+// else if (neighborhood == "Beacon Hill") {
+//   chart_color = "orange";
+// }
+// else if (neighborhood == "Central Area") {
+//   chart_color = "green";
+// }
+// else if (neighborhood == "Queen Anne") {
+//   chart_color = "purple";
+// }
+
 
 // Initialize the dashboard
 init();

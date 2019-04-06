@@ -39,7 +39,7 @@ session = Session(engine)
 
 
 # PART 3 -- FLASK SETUP AND ROUTE CREATION
-percentile_keys = ["25th Percentile", "50th Percentile", "75th Percentile", "Mean"]
+percentile_keys = ["Min","25th Percentile", "50th Percentile", "75th Percentile", "Mean","Max"]
 
 @app.route("/")
 def index():
@@ -56,11 +56,13 @@ def neighborhoods():
 def pricesummary(neighborhood):
     listings_data = pd.read_sql("SELECT * FROM listings",engine)
     listings_data_grouped = listings_data.loc[(listings_data["neighbourhood_group_cleansed"]== neighborhood),:]
-    mean_price = listings_data_grouped["price"].mean()
+    min_price = listings_data_grouped["price"].min()
     quartile_1_price = listings_data_grouped["price"].quantile(q=0.25)
     quartile_2_price = listings_data_grouped["price"].quantile(q=0.5)
     quartile_3_price = listings_data_grouped["price"].quantile(q=0.75)
-    summary_prices = [quartile_1_price,quartile_2_price,quartile_3_price,mean_price]
+    mean_price = listings_data_grouped["price"].mean()
+    max_price = listings_data_grouped["price"].max()
+    summary_prices = [min_price,quartile_1_price,quartile_2_price,quartile_3_price,mean_price,max_price]
     summary_prices_dictionary = dict(zip(percentile_keys,summary_prices))
     return jsonify(summary_prices_dictionary)
 
@@ -68,11 +70,13 @@ def pricesummary(neighborhood):
 def bedroomssummary(neighborhood):
     listings_data_2 = pd.read_sql("SELECT * FROM listings",engine)
     listings_data_grouped_2 = listings_data_2.loc[(listings_data_2["neighbourhood_group_cleansed"]== neighborhood),:]
-    mean_bedrooms = listings_data_grouped_2["bedrooms"].mean()
+    min_bedrooms = listings_data_grouped_2["bedrooms"].min()
     quartile_1_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.25)
     quartile_2_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.5)
     quartile_3_bedrooms = listings_data_grouped_2["bedrooms"].quantile(q=0.75)
-    summary_bedrooms = [quartile_1_bedrooms,quartile_2_bedrooms,quartile_3_bedrooms,mean_bedrooms]
+    mean_bedrooms = listings_data_grouped_2["bedrooms"].mean()
+    max_bedrooms = listings_data_grouped_2["bedrooms"].max()
+    summary_bedrooms = [min_bedrooms,quartile_1_bedrooms,quartile_2_bedrooms,quartile_3_bedrooms,mean_bedrooms,max_bedrooms]
     summary_bedrooms_dictionary = dict(zip(percentile_keys,summary_bedrooms))
     return jsonify(summary_bedrooms_dictionary)
 
@@ -80,15 +84,27 @@ def bedroomssummary(neighborhood):
 def bathroomssummary(neighborhood):
     listings_data_3 = pd.read_sql("SELECT * FROM listings",engine)
     listings_data_grouped_3 = listings_data_3.loc[(listings_data_3["neighbourhood_group_cleansed"]== neighborhood),:]
-    mean_bathrooms = listings_data_grouped_3["bathrooms"].mean()
+    min_bathrooms = listings_data_grouped_3["bathrooms"].min()
     quartile_1_bathrooms = listings_data_grouped_3["bathrooms"].quantile(q=0.25)
     quartile_2_bathrooms = listings_data_grouped_3["bathrooms"].quantile(q=0.5)
     quartile_3_bathrooms = listings_data_grouped_3["bathrooms"].quantile(q=0.75)
-    summary_bathrooms = [quartile_1_bathrooms,quartile_2_bathrooms,quartile_3_bathrooms,mean_bathrooms]
+    mean_bathrooms = listings_data_grouped_3["bathrooms"].mean()
+    max_bathrooms = listings_data_grouped_3["bathrooms"].max()
+    summary_bathrooms = [min_bathrooms,quartile_1_bathrooms,quartile_2_bathrooms,quartile_3_bathrooms,mean_bathrooms,max_bathrooms]
     summary_bathrooms_dictionary = dict(zip(percentile_keys,summary_bathrooms))
     return jsonify(summary_bathrooms_dictionary)
 
+@app.route("/pricelist/<neighborhood>")
+def pricelist(neighborhood):
+    listings_data_4 = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_4 = listings_data_4.loc[(listings_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    return jsonify(listings_data_grouped_4["price"].tolist())
 
+@app.route("/reviewcontentlist/<neighborhood>")
+def reviewcontentlist(neighborhood):
+    reviews_content_data = pd.read_sql("SELECT * FROM property_reviews LEFT JOIN listings ON property_reviews.listing_id = listings.id",engine)
+    reviews_content_data_grouped = reviews_content_data.loc[(reviews_content_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    return jsonify(reviews_content_data_grouped["comments"].tolist())
 
 if __name__ == "__main__":
     app.run()
