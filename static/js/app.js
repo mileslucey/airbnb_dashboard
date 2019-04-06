@@ -72,6 +72,42 @@ function priceSummaryData(neighborhood) {
   );
   }
 
+function buildBoxplot(neighborhood) {
+  //Use `d3.json` to fetch the sample data for the plots
+  var url_5 = `/reviewscorelist/${neighborhood}`;
+  d3.json(url_5).then(function(response) {
+    console.log(response);
+
+    var review_scores_rating = response;
+    //Build a box plot using the sample data
+    // var review_scores_rating = response['review_scores_rating'];
+
+    //  Create a trace and declare is as the data variable
+    var data = [
+      {
+        y: review_scores_rating,
+        boxpoints: 'all',
+        jitter: 0.3,
+        pointpos: -1.8,
+        // boxpoints: false,
+        name: "",
+        type: 'box'
+      }
+    ];
+
+    layout = {
+      title: "Distribution of Ratings",
+      yaxis: {title: "Overall Rating (Scale of 0 to 100)"}
+    }
+    
+
+    //  Create the box plot
+    Plotly.newPlot('box', data, layout);
+  });
+}  
+
+
+
 function buildHistogram(neighborhood) {
 
 //   // @TODO: Use `d3.json` to fetch the sample data for the plots
@@ -147,6 +183,7 @@ d3.json("/neighborhoods").then((neighborhoods) => {
     bedroomsSummaryData(firstNeighborhood);
     bathroomsSummaryData(firstNeighborhood);
     buildHistogram(firstNeighborhood);
+    buildBoxplot(firstNeighborhood);
   });
 }
 
@@ -159,6 +196,7 @@ function optionChanged(newNeighborhood) {
     bedroomsSummaryData(newNeighborhood);
     bathroomsSummaryData(newNeighborhood);
     buildHistogram(newNeighborhood);
+    buildBoxplot(newNeighborhood);
   }
 
 // if (neighborhood == "Downtown") {

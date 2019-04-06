@@ -100,11 +100,17 @@ def pricelist(neighborhood):
     listings_data_grouped_4 = listings_data_4.loc[(listings_data_4["neighbourhood_group_cleansed"] == neighborhood),:]
     return jsonify(listings_data_grouped_4["price"].tolist())
 
-@app.route("/reviewcontentlist/<neighborhood>")
-def reviewcontentlist(neighborhood):
-    reviews_content_data = pd.read_sql("SELECT * FROM property_reviews LEFT JOIN listings ON property_reviews.listing_id = listings.id",engine)
-    reviews_content_data_grouped = reviews_content_data.loc[(reviews_content_data["neighbourhood_group_cleansed"] == neighborhood),:]
-    return jsonify(reviews_content_data_grouped["comments"].tolist())
+@app.route("/reviewscorelist/<neighborhood>")
+def reviewscorelist(neighborhood):
+    listings_data_5 = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_5 = listings_data_5.loc[(listings_data_5["neighbourhood_group_cleansed"] == neighborhood),:]
+    return jsonify(listings_data_grouped_5["review_scores_rating"].tolist())
+
+# @app.route("/reviewcontentlist/<neighborhood>")
+# def reviewcontentlist(neighborhood):
+#     reviews_content_data = pd.read_sql("SELECT * FROM property_reviews LEFT JOIN listings ON property_reviews.listing_id = listings.id",engine)
+#     reviews_content_data_grouped = reviews_content_data.loc[(reviews_content_data["neighbourhood_group_cleansed"] == neighborhood),:]
+#     return jsonify(reviews_content_data_grouped["comments"].tolist())
 
 if __name__ == "__main__":
     app.run()
