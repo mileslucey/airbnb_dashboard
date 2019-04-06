@@ -97,7 +97,7 @@ def bathroomssummary(neighborhood):
 @app.route("/pricelist/<neighborhood>")
 def pricelist(neighborhood):
     listings_data_4 = pd.read_sql("SELECT * FROM listings",engine)
-    listings_data_grouped_4 = listings_data_4.loc[(listings_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    listings_data_grouped_4 = listings_data_4.loc[(listings_data_4["neighbourhood_group_cleansed"] == neighborhood),:]
     return jsonify(listings_data_grouped_4["price"].tolist())
 
 @app.route("/reviewcontentlist/<neighborhood>")
