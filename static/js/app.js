@@ -76,7 +76,7 @@ function buildBoxplot(neighborhood) {
   //Use `d3.json` to fetch the sample data for the plots
   var url_5 = `/reviewscorelist/${neighborhood}`;
   d3.json(url_5).then(function(response) {
-    console.log(response);
+    // console.log(response);
 
     var review_scores_rating = response;
     //Build a box plot using the sample data
@@ -137,28 +137,92 @@ function buildHistogram(neighborhood) {
     Plotly.newPlot('histogram', data, layout);
   });
 }
-  
 
-//     // @TODO: Build a Pie Chart
-//     d3.json(url).then(function(data) {
-// //        Establish the variables for the pie chart
-//         var pie_values = data.sample_values.slice(0,10);
-//         var pie_labels = data.otu_ids.slice(0,10);
-//         var pie_hover = data.otu_labels.slice(0,10);
+function buildPieChartPropertyType(neighborhood) {
+
+  //   // @TODO: Use `d3.json` to fetch the sample data for the plots
+    var url_5 = `/propertytype/${neighborhood}`;
+    d3.json(url_5).then(function(proptypedata) {
+      
+      // @TODO: Build a Histogram using the sample data
+      var property_type_keys = [];
+      var property_type_values = [];
+      for (var k in proptypedata) {
+        property_type_keys.push(k);
+        property_type_values.push(proptypedata[k])};
+      // var property_type_values = proptypedata.values();
+      // console.log(property_type_keys);
+      // console.log(property_type_values);
+
+      var trace2 = [{
+        values: property_type_values,
+        labels: property_type_keys,
+        type: "pie"
+      }];
+
+      var layout2 = {
+        title: "Property Types"
+      };
+      Plotly.newPlot('pie', trace2, layout2);
+    });
+  }
+
+
+  function buildPieChartRoomType(neighborhood) {
+
+    //   // @TODO: Use `d3.json` to fetch the sample data for the plots
+      var url_6 = `/roomtype/${neighborhood}`;
+      d3.json(url_6).then(function(roomtypedata) {
         
-// //        Use the above values to create the data variable for the pie chart
-//         var data = [{
-//             values: pie_values,
-//             labels: pie_labels,
-//             hovertext: pie_hover,
-//             type: 'pie'
-//           }];
+        // @TODO: Build a Histogram using the sample data
+        var room_type_keys = [];
+        var room_type_values = [];
+        for (var k in roomtypedata) {
+          room_type_keys.push(k);
+          room_type_values.push(roomtypedata[k])};
+        // console.log(room_type_keys);
+        // console.log(room_type_values);
+  
+        var trace3 = [{
+          values: room_type_values,
+          labels: room_type_keys,
+          type: "pie"
+        }];
+  
+        var layout3 = {
+          title: "Room Types"
+        };
+        Plotly.newPlot('pie2', trace3, layout3);
+      });
+    }
+
+function buildPieChartCancellation(neighborhood) {
+
+    //   // @TODO: Use `d3.json` to fetch the sample data for the plots
+      var url_7 = `/cancellationpolicy/${neighborhood}`;
+      d3.json(url_7).then(function(cancellationdata) {
         
-//         // Establish the pie chart
-//       Plotly.newPlot('pie', data);
-//     });
-//   });   
-// }
+        // @TODO: Build a Histogram using the sample data
+        var cancellation_keys = [];
+        var cancellation_values = [];
+        for (var k in cancellationdata) {
+          cancellation_keys.push(k);
+          cancellation_values.push(cancellationdata[k])};
+        // console.log(room_type_keys);
+        // console.log(room_type_values);
+  
+        var trace4 = [{
+          values: cancellation_values,
+          labels: cancellation_keys,
+          type: "pie"
+        }];
+  
+        var layout4 = {
+          title: "Cancellation Policy"
+        };
+        Plotly.newPlot('pie3', trace4, layout4);
+      });
+    }  
 
 
 function init() {
@@ -184,6 +248,9 @@ d3.json("/neighborhoods").then((neighborhoods) => {
     bathroomsSummaryData(firstNeighborhood);
     buildHistogram(firstNeighborhood);
     buildBoxplot(firstNeighborhood);
+    buildPieChartPropertyType(firstNeighborhood);
+    buildPieChartRoomType(firstNeighborhood);
+    buildPieChartCancellation(firstNeighborhood);
   });
 }
 
@@ -197,6 +264,9 @@ function optionChanged(newNeighborhood) {
     bathroomsSummaryData(newNeighborhood);
     buildHistogram(newNeighborhood);
     buildBoxplot(newNeighborhood);
+    buildPieChartPropertyType(newNeighborhood);
+    buildPieChartRoomType(newNeighborhood);
+    buildPieChartCancellation(newNeighborhood);
   }
 
 // if (neighborhood == "Downtown") {

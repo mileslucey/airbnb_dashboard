@@ -16,7 +16,6 @@ app = Flask(__name__)
 #################################################
 # Database Setup
 #################################################
-# engine = create_engine("sqlite:///db/output/airbnb_data.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/airbnb_data.sqlite"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -105,6 +104,27 @@ def reviewscorelist(neighborhood):
     listings_data_5 = pd.read_sql("SELECT * FROM listings",engine)
     listings_data_grouped_5 = listings_data_5.loc[(listings_data_5["neighbourhood_group_cleansed"] == neighborhood),:]
     return jsonify(listings_data_grouped_5["review_scores_rating"].tolist())
+
+@app.route("/propertytype/<neighborhood>")
+def property_type(neighborhood):
+    listings_data_6 = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_6 = listings_data_6.loc[(listings_data_6["neighbourhood_group_cleansed"] == neighborhood),:]
+    property_type_dictionary = listings_data_grouped_6["property_type"].value_counts().to_dict()
+    return jsonify(property_type_dictionary)
+
+@app.route("/roomtype/<neighborhood>")
+def room_type(neighborhood):
+    listings_data_7 = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_7 = listings_data_7.loc[(listings_data_7["neighbourhood_group_cleansed"] == neighborhood),:]
+    room_type_dictionary = listings_data_grouped_7["room_type"].value_counts().to_dict()
+    return jsonify(room_type_dictionary)
+
+@app.route("/cancellationpolicy/<neighborhood>")
+def cancellation_policy(neighborhood):
+    listings_data_8 = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_8 = listings_data_8.loc[(listings_data_8["neighbourhood_group_cleansed"] == neighborhood),:]
+    cancellation_policy_dictionary = listings_data_grouped_8["cancellation_policy"].value_counts().to_dict()
+    return jsonify(cancellation_policy_dictionary)
 
 # @app.route("/reviewcontentlist/<neighborhood>")
 # def reviewcontentlist(neighborhood):
