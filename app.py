@@ -126,6 +126,13 @@ def cancellation_policy(neighborhood):
     cancellation_policy_dictionary = listings_data_grouped_8["cancellation_policy"].value_counts().to_dict()
     return jsonify(cancellation_policy_dictionary)
 
+@app.route("/bedtype/<neighborhood>")
+def bedtype(neighborhood):
+    listings_data_9 = pd.read_sql("SELECT * FROM listings",engine)
+    listings_data_grouped_9 = listings_data_9.loc[(listings_data_9["neighbourhood_group_cleansed"] == neighborhood),:]
+    bed_type_dictionary = listings_data_grouped_9["bed_type"].value_counts().to_dict()
+    return jsonify(bed_type_dictionary)
+
 # @app.route("/reviewcontentlist/<neighborhood>")
 # def reviewcontentlist(neighborhood):
 #     reviews_content_data = pd.read_sql("SELECT * FROM property_reviews LEFT JOIN listings ON property_reviews.listing_id = listings.id",engine)

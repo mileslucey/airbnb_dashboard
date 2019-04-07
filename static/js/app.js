@@ -1,4 +1,5 @@
-// var chart_color = "blue";
+var neighborhood = "Downtown";
+var chart_color = "blue";
 // var neighborhood = "Downtown"
 function priceSummaryData(neighborhood) {
 
@@ -85,19 +86,22 @@ function buildBoxplot(neighborhood) {
     //  Create a trace and declare is as the data variable
     var data = [
       {
-        y: review_scores_rating,
+        x: review_scores_rating,
         boxpoints: 'all',
         jitter: 0.3,
         pointpos: -1.8,
         // boxpoints: false,
         name: "",
+        marker:{
+          color: chart_color
+        },
         type: 'box'
       }
     ];
 
     layout = {
       title: "Distribution of Ratings",
-      yaxis: {title: "Overall Rating (Scale of 0 to 100)"}
+      xaxis: {title: "Overall Rating (Scale of 0 to 100)"}
     }
     
 
@@ -122,7 +126,7 @@ function buildHistogram(neighborhood) {
       x: prices,
       type: "histogram",
       marker:{
-        // color: "lightblue"
+        color: chart_color
       }
     };
     var data = [trace1];
@@ -225,6 +229,35 @@ function buildPieChartCancellation(neighborhood) {
     }  
 
 
+function buildPieChartBedType(neighborhood) {
+
+    //   // @TODO: Use `d3.json` to fetch the sample data for the plots
+      var url_8 = `/bedtype/${neighborhood}`;
+      d3.json(url_8).then(function(bedtypedata) {
+        
+        // @TODO: Build a Histogram using the sample data
+        var bedtype_keys = [];
+        var bedtype_values = [];
+        for (var k in bedtypedata) {
+          bedtype_keys.push(k);
+          bedtype_values.push(bedtypedata[k])};
+        // console.log(room_type_keys);
+        // console.log(room_type_values);
+  
+        var trace5 = [{
+          values: bedtype_values,
+          labels: bedtype_keys,
+          type: "pie"
+        }];
+  
+        var layout5 = {
+          title: "Bed Types"
+        };
+        Plotly.newPlot('pie4', trace5, layout5);
+      });
+    }  
+
+
 function init() {
   
 //     // Grab a reference to the dropdown select element
@@ -251,6 +284,9 @@ d3.json("/neighborhoods").then((neighborhoods) => {
     buildPieChartPropertyType(firstNeighborhood);
     buildPieChartRoomType(firstNeighborhood);
     buildPieChartCancellation(firstNeighborhood);
+    buildPieChartBedType(firstNeighborhood);
+    neighborhood = firstNeighborhood;
+    set_chart_color();
   });
 }
 
@@ -267,21 +303,30 @@ function optionChanged(newNeighborhood) {
     buildPieChartPropertyType(newNeighborhood);
     buildPieChartRoomType(newNeighborhood);
     buildPieChartCancellation(newNeighborhood);
+    buildPieChartBedType(newNeighborhood);
+    neighborhood = newNeighborhood;
+    // console.log(neighborhood);
+    set_chart_color();
   }
 
-// if (neighborhood == "Downtown") {
-//   chart_color = "blue";
-// }
-// else if (neighborhood == "Beacon Hill") {
-//   chart_color = "orange";
-// }
-// else if (neighborhood == "Central Area") {
-//   chart_color = "green";
-// }
-// else if (neighborhood == "Queen Anne") {
-//   chart_color = "purple";
-// }
-
+function set_chart_color() {
+  if (neighborhood == "Downtown") {
+    // console.log(neighborhood);
+    chart_color = "blue";
+  }
+  else if (neighborhood == "Beacon Hill") {
+    // console.log(neighborhood);
+    chart_color = "orange";
+  }
+  else if (neighborhood == "Central Area") {
+    // console.log(neighborhood);
+    chart_color = "green";
+  }
+  else if (neighborhood == "Queen Anne") {
+    // console.log(neighborhood);
+    chart_color = "purple";
+  }
+}
 
 // Initialize the dashboard
 init();
