@@ -5,105 +5,147 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>AirBnB Neighborhood Dashboard</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <title>Airbnb Seattle Neighborhoods</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
 </head>
 
 <body>
+	<!-- implementing the navbar -->
+	<!-- <nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class = "navbar-header">
+        		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        		<span class="sr-only">Toggle Navigation</span>
+	        		<span class="icon-bar"></span>
+	        		<span class="icon-bar"></span>
+	        		<span class="icon-bar"></span>
+            	</button>
+            	<a class="navbar-default" href="index.html">Listings</a>
+        	</div>
 
+        	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reviews
+                			<span class="caret"></span>
+                		</a>
+                		<ul class="dropdown-menu">
+	                		<li>
+	                 			<a href="index.html">Reviews</a>
+		                 	</li>
+		                 	<li>
+	                  			<a href="index.html">Hosts</a>
+	                  		</li>
+						</ul>
+		            <li>
+	            		<a class="navbar-default" href="index.html"> Reviews </a>
+		            </li>
+		            <li>
+	            		<a class = "navbar-default" href="index.html">Hosts</a>
+	            	</li>
+		        </ul>
+		    </div>
+		</div>
+    </nav> -->
+<!-- End of navbar code-->
   <div class="container">
     <div class="row">
-      <div class="col-md-12 jumbotron text-center">
-        <h1>AirBnB Neighborhood Dashboard</h1>
-        <p>Use the interactive charts below to explore the dataset</p>
+      <div class="col-md-12 col-lg-12 jumbotron text-center">
+        <h1>Seattle Airbnbs by Neighborhood</h1>
+      <div class="col-md-12 col-lg-12">
+        <h2>Select Neighborhood:</h2> 
+          <select id="selNeighborhood" onchange="optionChanged(this.value)"></select>
+      </div>
       </div>
     </div>
     <h2>Listing Information:</h2>
     <div class="well">
-      <div class="row">
-        <div class="col-md-3">
-        <h4>SELECT Neighborhood:</h4> 
-          <select id="selNeighborhood" onchange="optionChanged(this.value)"></select>
+      <div class = "row">
+        <div class = "col-md-12 col-lg-12">
+          <div id="histogram"></div>
+        </div>  
+      </div>
+      <div class = "row">
+        <div class = "col-md-6 col-lg-6">
+          <!-- <div id="box"></div> -->
+          <div id="pie4"></div>
         </div>
-        <div class = "col-md-3">
-          <div class="panel panel-default">
+        <div class = "col-md-6 col-lg-6">
+          <div id="pie3"></div>
+        </div>  
+      </div>
+      <div class = "row">
+          <div class = "col-md-6 col-lg-6">
+            <div id="pie"></div>
+          </div>
+          <div class = "col-md-6 col-lg-6">
+            <div id="pie2"></div>
+          </div>  
+          <!-- <div class = "col-md-4"> -->
+          <!-- </div> -->
+      </div>
+      <div class="row">
+        <!-- <div class="col-md-3 col-lg-3"> -->
+        <!-- </div> -->
+        <div class = "col-md-4 col-lg-4">
+          <!-- <div class="panel panel-default"> -->
+          <div class="panel">
             <div class="panel-heading">
-              <h3 class="panel-title">AirBnB Listing Prices (USD)</h3>
+              <h3 class="panel-title">Airbnb Listing Prices (USD)</h3>
             </div>
             <div id="price-summary" class="panel-body"></div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="panel panel-default">
+        <div class="col-md-4 col-lg-4">
+          <div class="panel">
             <div class="panel-heading">
               <h3 class="panel-title">Bedrooms</h3>
             </div>
             <div id="bedrooms-summary" class="panel-body"></div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="panel panel-default">
+        <div class="col-md-4 col-lg-4">
+          <div class="panel">
             <div class="panel-heading">
               <h3 class="panel-title">Bathrooms</h3>
             </div>
             <div id="bathrooms-summary" class="panel-body"></div>
           </div>
         </div>
-      </div>
-      <div class = "row">
-        <div class = "col-md-12">
-          <div id="histogram"></div>
-        </div>  
-      </div>
-      <div class = "row">
-        <div class = "col-md-6">
-          <!-- <div id="box"></div> -->
-          <div id="pie4"></div>
-        </div>
-        <div class = "col-md-6">
-          <div id="pie3"></div>
-        </div>  
-      </div>
-      <div class = "row">
-          <div class = "col-md-6">
-            <div id="pie"></div>
-          </div>
-          <div class = "col-md-6">
-            <div id="pie2"></div>
-          </div>  
-          <!-- <div class = "col-md-4"> -->
-          <!-- </div> -->
       </div>  
     </div>
     <h2>Review Information:</h2>
     <div class="well">
       <div class="row">
-        <div class = "col-md-12">
-          <div id="box"></div>
-        </div>
-      </div>
-      <div class="row">
-          <div class = "col-md-12">
+          <div class = "col-md-12 col-lg-12">
             <div id="myChart"></div>
           </div>
         </div>
+      <div class="row">
+        <div class = "col-md-12 col-lg-12">
+          <div id="box"></div>
+        </div>
+      </div>
     </div>
     <h2>Host Information:</h2>
     <div class="well">
       <div class="row">
-        <div class = "col-md-12">
+        <div class = "col-md-12 col-lg-12">
           <div id="histogram2"></div>
         </div>
       </div>
       <div class="row">
-        <div class = "col-md-6">
+        <div class = "col-md-6 col-lg-6">
           <div id="pie5"></div>
         </div>
-        <div class = "col-md-6">
+        <div class = "col-md-6 col-lg-6">
           <div id="pie6"></div>
         </div>
       </div>
     </div>
+
 
   </div>
   <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
@@ -114,6 +156,11 @@
   <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
   ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>  <link href="https://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet">
 
+	<!-- ending script for bootstrap -->
+  <!-- <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous">
+      </script> -->
 </body>
 
 </html>

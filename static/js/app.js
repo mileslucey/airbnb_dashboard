@@ -427,8 +427,6 @@ function buildWordCloud(neighborhood) {
 }
 
 
-
-
 function init() {
   
 //     // Grab a reference to the dropdown select element
