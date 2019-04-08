@@ -1,4 +1,4 @@
-# AirBnB Dashboard
+# Airbnb Dashboard
 ## Background Information
 ### Team Members
 * Shannon Chang
