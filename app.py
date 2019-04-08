@@ -133,11 +133,35 @@ def bedtype(neighborhood):
     bed_type_dictionary = listings_data_grouped_9["bed_type"].value_counts().to_dict()
     return jsonify(bed_type_dictionary)
 
-# @app.route("/reviewcontentlist/<neighborhood>")
-# def reviewcontentlist(neighborhood):
-#     reviews_content_data = pd.read_sql("SELECT * FROM property_reviews LEFT JOIN listings ON property_reviews.listing_id = listings.id",engine)
-#     reviews_content_data_grouped = reviews_content_data.loc[(reviews_content_data["neighbourhood_group_cleansed"] == neighborhood),:]
-#     return jsonify(reviews_content_data_grouped["comments"].tolist())
+@app.route("/reviewcontentlist/<neighborhood>")
+def reviewcontentlist(neighborhood):
+    reviews_content_data = pd.read_sql("SELECT * FROM property_reviews LEFT JOIN listings ON property_reviews.listing_id = listings.id",engine)
+    reviews_content_data_grouped = reviews_content_data.loc[(reviews_content_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    return jsonify(reviews_content_data_grouped["comments"].tolist())
+
+@app.route("/superhost/<neighborhood>")
+def superhost(neighborhood):
+    superhost_data = pd.read_sql("SELECT * FROM airbnb_hosts LEFT JOIN listings ON airbnb_hosts.host_id = listings.host_id",engine)
+    superhost_data_grouped = superhost_data.loc[(superhost_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    superhost_dictionary = superhost_data_grouped["host_is_superhost"].value_counts().to_dict()
+    return jsonify(superhost_dictionary)
+
+@app.route("/identityverified/<neighborhood>")
+def identityverfified(neighborhood):
+    identityverfified_data = pd.read_sql("SELECT * FROM airbnb_hosts LEFT JOIN listings ON airbnb_hosts.host_id = listings.host_id",engine)
+    identityverfified_data_grouped = identityverfified_data.loc[(identityverfified_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    identityverfified_dictionary = identityverfified_data_grouped["host_identity_verified"].value_counts().to_dict()
+    return jsonify(identityverfified_dictionary)
+
+@app.route("/listingscount/<neighborhood>")
+def listingscount(neighborhood):
+    listingscount_data = pd.read_sql("SELECT * FROM airbnb_hosts LEFT JOIN listings ON airbnb_hosts.host_id = listings.host_id",engine)
+    #  WHERE airbnb_hosts.host_response_rate IS NOT NULL
+    listingscount_data_grouped = listingscount_data.loc[(listingscount_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    # identityverfified_dictionary = identityverfified_data_grouped["host_identity_verified"].value_counts().to_dict()
+    return jsonify(listingscount_data_grouped["host_listings_count"].tolist())
+    
+
 
 if __name__ == "__main__":
     app.run()

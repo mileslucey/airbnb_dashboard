@@ -1,5 +1,6 @@
 var neighborhood = "Downtown";
-var chart_color = "blue";
+var chart_color = "#3D2B56";
+var pie_colors = ['#3D2B56','#A26769', '#D5B9B2', '#ECE2D0', '#CEBEBE', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
 // var neighborhood = "Downtown"
 function priceSummaryData(neighborhood) {
 
@@ -161,7 +162,10 @@ function buildPieChartPropertyType(neighborhood) {
       var trace2 = [{
         values: property_type_values,
         labels: property_type_keys,
-        type: "pie"
+        type: "pie",
+        marker: {
+          colors: pie_colors
+        }
       }];
 
       var layout2 = {
@@ -190,7 +194,10 @@ function buildPieChartPropertyType(neighborhood) {
         var trace3 = [{
           values: room_type_values,
           labels: room_type_keys,
-          type: "pie"
+          type: "pie",
+          marker: {
+            colors: pie_colors
+          }
         }];
   
         var layout3 = {
@@ -218,7 +225,10 @@ function buildPieChartCancellation(neighborhood) {
         var trace4 = [{
           values: cancellation_values,
           labels: cancellation_keys,
-          type: "pie"
+          type: "pie",
+          marker: {
+            colors: pie_colors
+          }
         }];
   
         var layout4 = {
@@ -247,7 +257,10 @@ function buildPieChartBedType(neighborhood) {
         var trace5 = [{
           values: bedtype_values,
           labels: bedtype_keys,
-          type: "pie"
+          type: "pie",
+          marker: {
+            colors: pie_colors
+          }
         }];
   
         var layout5 = {
@@ -256,6 +269,164 @@ function buildPieChartBedType(neighborhood) {
         Plotly.newPlot('pie4', trace5, layout5);
       });
     }  
+
+    function buildPieChartSuperhost(neighborhood) {
+
+      //   // @TODO: Use `d3.json` to fetch the sample data for the plots
+        var url_9 = `/superhost/${neighborhood}`;
+        d3.json(url_9).then(function(superhostdata) {
+          
+          // @TODO: Build a Histogram using the sample data
+          var superhost_keys = [];
+          var superhost_values = [];
+          var true_false_values = ["Not Superhost","Is Superhost"];
+          for (var k in superhostdata) {
+            superhost_keys.push(k);
+            superhost_values.push(superhostdata[k])};
+          // console.log(superhost_keys);
+          // console.log(superhost_values);
+          var trace6 = [{
+            values: superhost_values,
+            labels: true_false_values,
+            type: "pie",
+            marker: {
+              colors: pie_colors
+            }
+          }];
+    
+          var layout6 = {
+            title: "Superhosts"
+          };
+          Plotly.newPlot('pie5', trace6, layout6);
+        });
+      }
+
+    function buildPieChartIDVerfified(neighborhood) {
+
+      //   // @TODO: Use `d3.json` to fetch the sample data for the plots
+        var url_10 = `/identityverified/${neighborhood}`;
+        d3.json(url_10).then(function(identityverifieddata) {
+          
+          // @TODO: Build a Histogram using the sample data
+          var identity_keys = [];
+          var identity_values = [];
+          var true_false_values_2 = ["Identity Not Verified","Identity Verified"];
+          for (var k in identityverifieddata) {
+            identity_keys.push(k);
+            identity_values.push(identityverifieddata[k])};
+          // console.log(superhost_keys);
+          // console.log(superhost_values);
+          var trace7 = [{
+            values: identity_values,
+            labels: true_false_values_2,
+            type: "pie",
+            marker: {
+              colors: pie_colors
+            }
+          }];
+    
+          var layout7 = {
+            title: "Host Identity Verification"
+          };
+          Plotly.newPlot('pie6', trace7, layout7);
+        });
+      }  
+  
+function buildListingCountHistogram(neighborhood) {
+  //Use `d3.json` to fetch the sample data for the plots
+  var url_11 = `/listingscount/${neighborhood}`;
+  d3.json(url_11).then(function(response_2) {
+    // console.log(response);
+
+    var listingcount = response_2;
+    //Build a box plot using the sample data
+    // var review_scores_rating = response['review_scores_rating'];
+
+    //  Create a trace and declare is as the data variable
+    var trace4 = {
+      x: listingcount,
+      type: "histogram",
+      marker:{
+        color: chart_color
+      }
+    };
+    var data3 = [trace4];
+
+    var layout3 = {
+      title: "Distribution of AirBnB Listings", 
+      xaxis: {title: "Number of AirBnB Listings Hosts Own"}, 
+      yaxis: {title: "Frequency"}
+    };
+    
+
+    //  Create the box plot
+    Plotly.newPlot('histogram2', data3, layout3);
+  });
+}
+
+  
+function buildWordCloud(neighborhood) {
+  //Use `d3.json` to fetch the sample data for the plots
+  var url_12 = `/reviewcontentlist/${neighborhood}`;
+  d3.json(url_12).then(function(wordclouddata) {
+    var wordcloudstring = "";
+    wordcloudstring = wordclouddata.join(" ");
+    // console.log(wordcloudstring);
+
+    // var text = wordcloudstring;
+    //Build a box plot using the sample data
+    // var review_scores_rating = response['review_scores_rating'];
+
+    //  Create a trace and declare is as the data variable
+    var myConfig = {
+      type: 'wordcloud',
+      options: {
+        text: wordcloudstring,
+        minLength: 5,
+        ignore: ["Seattle","there","would","which","really","host","place","house","could","didn't","definitely","accommodating","about","first","needed","bathroom","bedroom","There","around","great","apartment","kitchen","condo","house","everything","Place","Great","great","during","helpful","downtown","questions","location","located","space","within","visit","their","little","Beacon","hill","Hill","central","Central","neighborhood","Thanks","Thank","thanks","thank","Queen","queen","Anne","anne","clean","right","left","recommend","before","after","wonderful","again","hosts","amazing","beautiful","again","airport","arrived","check","other","super","stayed","Needle","excellent","Nadine","The","arrival","Capitol","Would","things","perfect","loved","described","exactly","Space","Serina","available","Everything","awesome","fantastic","welcome","enough","Center","responsive","absolutely","experience","highly","minute","anyone","studio","extremely","Lauren","because","while","staying","Leslie","Carol","Airbnb","better","being","The","Julian","every","comfortable","close","though","where","wanted","early","itself","communication","looking","instructions","distance","information","airbnb","short","light","night","lovely","Melissa","enjoyed","Kevin"],
+        maxItems: 40,
+        aspect: 'flow-center',
+        rotate: true,
+        colorType: 'palette',
+        // palette: ['#D32F2F','#5D4037','#1976D2','#E53935','#6D4C41','#1E88E5','#F44336','#795548','#2196F3','#EF5350','#8D6E63','#42A5F5'],
+        palette: pie_colors,
+        // console.log(pie_colors);
+
+        style: {
+          fontFamily: 'Crete Round',
+          
+          hoverState: {
+            // backgroundColor: '#D32F2F',
+            backgroundColor: chart_color,
+            borderRadius: 2,
+            fontColor: 'white'
+          },
+          tooltip: {
+            text: '%text: %hits',
+            visible: true,
+            
+            alpha: 0.9,
+            backgroundColor: "black",
+            // backgroundColor: '#1976D2',
+            borderRadius: 2,
+            borderColor: 'none',
+            fontColor: 'white',
+            fontFamily: 'Georgia',
+            textAlpha: 1
+          }
+        }
+      },
+    };
+    zingchart.render({ 
+      id: 'myChart', 
+      data: myConfig, 
+      // height: 400, 
+      width: '100%' 
+    });
+  });
+}
+
+
 
 
 function init() {
@@ -285,6 +456,10 @@ d3.json("/neighborhoods").then((neighborhoods) => {
     buildPieChartRoomType(firstNeighborhood);
     buildPieChartCancellation(firstNeighborhood);
     buildPieChartBedType(firstNeighborhood);
+    buildPieChartSuperhost(firstNeighborhood);
+    buildPieChartIDVerfified(firstNeighborhood);
+    buildListingCountHistogram(firstNeighborhood);
+    buildWordCloud(firstNeighborhood);
     neighborhood = firstNeighborhood;
     set_chart_color();
   });
@@ -304,27 +479,30 @@ function optionChanged(newNeighborhood) {
     buildPieChartRoomType(newNeighborhood);
     buildPieChartCancellation(newNeighborhood);
     buildPieChartBedType(newNeighborhood);
+    buildPieChartSuperhost(newNeighborhood);
+    buildPieChartIDVerfified(newNeighborhood);
+    buildListingCountHistogram(newNeighborhood);
+    buildWordCloud(newNeighborhood);
     neighborhood = newNeighborhood;
-    // console.log(neighborhood);
     set_chart_color();
   }
 
 function set_chart_color() {
   if (neighborhood == "Downtown") {
-    // console.log(neighborhood);
-    chart_color = "blue";
+    chart_color = "#3D2B56";
+    pie_colors = ['#3D2B56','#A26769', '#D5B9B2', '#ECE2D0', '#CEBEBE', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
   }
   else if (neighborhood == "Beacon Hill") {
-    // console.log(neighborhood);
-    chart_color = "orange";
+    chart_color = "#F26419";
+    pie_colors = ['#F26419','#FFB800', '#2F4858', '#86BBD8', '#33658A', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
   }
   else if (neighborhood == "Central Area") {
-    // console.log(neighborhood);
-    chart_color = "green";
+    chart_color = "#6B8F71";
+    pie_colors = ['#6B8F71','#9DBF9E', '#D0D6B5', '#F9B5AC', '#EE7674', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
   }
   else if (neighborhood == "Queen Anne") {
-    // console.log(neighborhood);
-    chart_color = "purple";
+    chart_color = "#6F1A07";
+    pie_colors = ['#6F1A07','#C32F27', '#D8572A', '#DB7C26', '#F7B538', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
   }
 }
 
