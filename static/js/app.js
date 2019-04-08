@@ -1,6 +1,7 @@
 var neighborhood = "Downtown";
 var chart_color = "#3D2B56";
 var pie_colors = ['#3D2B56','#A26769', '#D5B9B2', '#ECE2D0', '#CEBEBE', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
+var bg_color ="#dcd2e9";
 // var neighborhood = "Downtown"
 function priceSummaryData(neighborhood) {
 
@@ -427,6 +428,7 @@ function buildWordCloud(neighborhood) {
 }
 
 
+
 function init() {
   
 //     // Grab a reference to the dropdown select element
@@ -440,7 +442,6 @@ d3.json("/neighborhoods").then((neighborhoods) => {
       .text(neighborhood)
       .property("value", neighborhood);
   });
-
 
     // Use the first sample from the list to build the initial plots
     const firstNeighborhood = neighborhoods[0];
@@ -460,6 +461,7 @@ d3.json("/neighborhoods").then((neighborhoods) => {
     buildWordCloud(firstNeighborhood);
     neighborhood = firstNeighborhood;
     set_chart_color();
+    setBackgroundColor();
   });
 }
 
@@ -483,26 +485,36 @@ function optionChanged(newNeighborhood) {
     buildWordCloud(newNeighborhood);
     neighborhood = newNeighborhood;
     set_chart_color();
+    setBackgroundColor();
   }
 
 function set_chart_color() {
   if (neighborhood == "Downtown") {
     chart_color = "#3D2B56";
     pie_colors = ['#3D2B56','#A26769', '#D5B9B2', '#ECE2D0', '#CEBEBE', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
+    bg_color ="#dcd2e9";
   }
   else if (neighborhood == "Beacon Hill") {
     chart_color = "#F26419";
     pie_colors = ['#F26419','#FFB800', '#2F4858', '#86BBD8', '#33658A', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
+    bg_color = "#fce0d1";
   }
   else if (neighborhood == "Central Area") {
     chart_color = "#6B8F71";
     pie_colors = ['#6B8F71','#9DBF9E', '#D0D6B5', '#F9B5AC', '#EE7674', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
+    bg_color = "#dae4da";
   }
   else if (neighborhood == "Queen Anne") {
     chart_color = "#6F1A07";
     pie_colors = ['#6F1A07','#C32F27', '#D8572A', '#DB7C26', '#F7B538', 'rgb(102, 102, 102)','rgb(76, 76, 76)','rgb(153, 153, 153)','rgb(204, 204, 204)','rgb(229, 229, 229)'];
+    bg_color = "#fac2b5";
   }
 }
+
+function setBackgroundColor() {
+  document.body.style.backgroundColor = bg_color;
+};
+
 
 // Initialize the dashboard
 init();
