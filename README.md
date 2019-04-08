@@ -17,7 +17,8 @@
           * https://plot.ly/javascript/histograms/
      5. Create wordclouds of the review comments for each neighborhood
           * https://www.zingchart.com/docs/chart-types/wordcloud/
-## Final Product          
+## Final Product
+* See the deployed web application here: https://airbnb-dashboard-seattle.herokuapp.com/
 ![](images/final_product_1.png)
 ![](images/final_product_2.png)
 ![](images/final_product_3.png)
