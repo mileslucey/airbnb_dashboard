@@ -49,7 +49,7 @@ def index():
 @app.route("/neighborhoods")
 def neighborhoods():
     neighborhoods = pd.read_sql("SELECT neighbourhood_group_cleansed FROM listings",engine)
-    neighborhoods_list = neighborhoods['neighbourhood_group_cleansed'].unique()
+    neighborhoods_list = neighborhoods['neighbourhood_group_cleansed'].unique()    
     return jsonify(neighborhoods_list.tolist())
 
 @app.route("/pricesummary/<neighborhood>")
