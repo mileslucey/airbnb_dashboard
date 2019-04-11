@@ -5,124 +5,124 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Give the web page a title -->
   <title>Airbnb Seattle Neighborhoods</title>
+  <!-- Add Bootstrap stylesheet -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="stylesheets/style.css">
+  <!-- Create relative link for CSS stylesheet -->
   <link rel="stylesheet" href="../static/css/style.css">
 </head>
 
 <body>
-	<!-- implementing the navbar -->
-	<!-- <nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class = "navbar-header">
-        		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-	        		<span class="sr-only">Toggle Navigation</span>
-	        		<span class="icon-bar"></span>
-	        		<span class="icon-bar"></span>
-	        		<span class="icon-bar"></span>
-            	</button>
-            	<a class="navbar-default" href="index.html">Listings</a>
-        	</div>
-
-        	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reviews
-                			<span class="caret"></span>
-                		</a>
-                		<ul class="dropdown-menu">
-	                		<li>
-	                 			<a href="index.html">Reviews</a>
-		                 	</li>
-		                 	<li>
-	                  			<a href="index.html">Hosts</a>
-	                  		</li>
-						</ul>
-		            <li>
-	            		<a class="navbar-default" href="index.html"> Reviews </a>
-		            </li>
-		            <li>
-	            		<a class = "navbar-default" href="index.html">Hosts</a>
-	            	</li>
-		        </ul>
-		    </div>
-		</div>
-    </nav> -->
-<!-- End of navbar code-->
+  <!-- Create a container class to hold the entire body of code -->
   <div class="container">
+    <!-- Make the web page's heading its own row -->
     <div class="row">
+      <!-- Ensure heading text takes up the entire row -->
       <div class="col-md-12 col-lg-12 jumbotron text-center">
+        <!-- Label the uppermost heading -->
         <h1>Seattle Airbnbs by Neighborhood</h1>
+      <!-- Ensure the "Select Neighborhood" toggle switch takes up the space beneath the uppermost heading -->  
       <div class="col-md-12 col-lg-12">
-        <h2>Select Neighborhood:</h2> 
+        <!-- Write "Select Neighborhood" in large font to make sure the viewer knows what do do when opening the application -->
+        <h2>Select Neighborhood:</h2>
+           <!--Create the toggle switch in which the user can change between neighborhoods to display different information -->
           <select id="selNeighborhood" onchange="optionChanged(this.value)"></select>
       </div>
       </div>
     </div>
+    <!-- Create a heading that labels the block of graphs/charts "Listing Information" -->
     <h2>Listing Information:</h2>
+    <!-- Put the "Listing Information" section into its own well -->
     <div class="well">
+      <!-- Make the histogram into its own row on the page -->
       <div class = "row">
+        <!-- Ensure the histogram takes up the entire row -->
         <div class = "col-md-12 col-lg-12">
+          <!-- Establish the histogram id, which establishes where the histogram created in the JavaScript code will populate -->
           <div id="histogram"></div>
         </div>  
       </div>
+      <!-- Make two pie charts their own row on the page -->
       <div class = "row">
+        <!-- Ensure the first pie chart takes up half the row -->
         <div class = "col-md-6 col-lg-6">
-          <!-- <div id="box"></div> -->
+          <!-- Establish the pie id, which establishes where the pie chart created in the JavaScript code will populate -->
           <div id="pie4"></div>
         </div>
+        <!-- Ensure the second pie chart takes up the remaining half of the row -->
         <div class = "col-md-6 col-lg-6">
+          <!-- Establish the pie id, which establishes where the pie chart created in the JavaScript code will populate -->
           <div id="pie3"></div>
         </div>  
       </div>
-      <div class = "row">
-          <div class = "col-md-6 col-lg-6">
-            <div id="pie"></div>
-          </div>
-          <div class = "col-md-6 col-lg-6">
-            <div id="pie2"></div>
-          </div>  
-          <!-- <div class = "col-md-4"> -->
-          <!-- </div> -->
+      <!-- Make two pie charts their own row on the page -->
+    <div class = "row">
+      <!-- Ensure the first pie chart takes up half the row -->
+      <div class = "col-md-6 col-lg-6">
+        <!-- Establish the pie id, which establishes where the pie chart created in the JavaScript code will populate -->
+        <div id="pie"></div>
       </div>
-      <div class="row">
-        <!-- <div class="col-md-3 col-lg-3"> -->
-        <!-- </div> -->
-        <div class = "col-md-4 col-lg-4">
-          <!-- <div class="panel panel-default"> -->
-          <div class="panel">
-            <div class="panel-heading">
-              <h3 class="panel-title">Airbnb Listing Prices (USD)</h3>
-            </div>
-            <div id="price-summary" class="panel-body"></div>
-          </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-          <div class="panel">
-            <div class="panel-heading">
-              <h3 class="panel-title">Bedrooms</h3>
-            </div>
-            <div id="bedrooms-summary" class="panel-body"></div>
-          </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-          <div class="panel">
-            <div class="panel-heading">
-              <h3 class="panel-title">Bathrooms</h3>
-            </div>
-            <div id="bathrooms-summary" class="panel-body"></div>
-          </div>
-        </div>
+      <!-- Ensure the second pie chart takes up the remaining half of the row -->
+      <div class = "col-md-6 col-lg-6">
+        <!-- Establish the pie id, which establishes where the pie chart created in the JavaScript code will populate -->
+        <div id="pie2"></div>
       </div>  
     </div>
-    <h2>Review Information:</h2>
-    <div class="well">
-      <div class="row">
-          <div class = "col-md-12 col-lg-12">
-            <div id="myChart"></div>
+    <!-- Make three percentile summary tables their own row on the page -->
+    <div class="row">
+      <!-- Ensure the price summary table takes up the first third of the row -->
+      <div class = "col-md-4 col-lg-4">
+        <!-- Establish the "panel" class -->
+        <div class="panel">
+          <!-- Establish the panel heading -->
+          <div class="panel-heading">
+            <!-- Add a title to the prices panel -->
+            <h3 class="panel-title">Airbnb Listing Prices (USD)</h3>
           </div>
+          <!-- Create the "price-summary" id, which populates the percentile data into the panel's body -->
+          <div id="price-summary" class="panel-body"></div>
         </div>
+      </div>
+      <!-- Ensure the bedroom number summary table takes up the second third of the row -->
+      <div class="col-md-4 col-lg-4">
+        <!-- Establish the "panel" class -->
+        <div class="panel">
+          <!-- Establish the panel heading -->
+          <div class="panel-heading">
+            <!-- Add a title to the prices panel -->
+            <h3 class="panel-title">Bedrooms</h3>
+          </div>
+            <!-- Create the "bedrooms-summary" id, which populates the percentile data into the panel's body -->
+            <div id="bedrooms-summary" class="panel-body"></div>
+        </div>
+      </div>
+      <!-- Ensure the bathroom number summary table takes up the third third of the row -->  
+      <div class="col-md-4 col-lg-4">
+        <!-- Establish the "panel" class -->
+        <div class="panel">
+          <!-- Establish the panel heading -->
+          <div class="panel-heading">
+            <!-- Add a title to the prices panel -->
+            <h3 class="panel-title">Bathrooms</h3>
+          </div>
+            <!-- Create the "bathrooms-summary" id, which populates the percentile data into the panel's body -->
+            <div id="bathrooms-summary" class="panel-body"></div>
+        </div>
+      </div>
+    </div>  
+    </div>
+    <!-- Create a heading that labels the block of graphs/charts "Review Information" -->
+    <h2>Review Information:</h2>
+    <!-- Put the "Review Information" section into its own well -->
+    <div class="well">
+      <!-- Make the word cloud its own row on the page -->
+      <div class="row">
+        <!-- Ensure word cloud takes up the entire row -->
+        <div class = "col-md-12 col-lg-12">
+          <div id="myChart"></div>
+        </div>
+      </div>
       <div class="row">
         <div class = "col-md-12 col-lg-12">
           <div id="box"></div>
