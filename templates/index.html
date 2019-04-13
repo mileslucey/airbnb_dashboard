@@ -120,47 +120,57 @@
       <div class="row">
         <!-- Ensure word cloud takes up the entire row -->
         <div class = "col-md-12 col-lg-12">
+          <!-- Identify "myChart" id to identify where the word cloud will go -->
           <div id="myChart"></div>
         </div>
       </div>
+      <!-- Make the box plot its own row -->
       <div class="row">
+        <!-- Ensure box plot takes up the entire row -->
         <div class = "col-md-12 col-lg-12">
+          <!-- Create boxplot id to identify where the boxplot will go -->
           <div id="box"></div>
         </div>
       </div>
     </div>
+    <!-- Label the next section of the web page "Host Information" -->
     <h2>Host Information:</h2>
+    <!-- Put the "Host Information" section into its own well -->
     <div class="well">
+      <!-- Make the second histogram its own row -->
       <div class="row">
+        <!-- Ensure the second histogram takes up the entire row -->
         <div class = "col-md-12 col-lg-12">
+          <!-- Create the "histogram2" id to identify where the second histogram will go on the web page -->
           <div id="histogram2"></div>
         </div>
       </div>
+      <!-- Create a new row to hold two pie charts -->
       <div class="row">
+        <!-- Ensure first pie chart takes up 1/2 of the row -->
         <div class = "col-md-6 col-lg-6">
+          <!-- Create pie5 id to identify where the first pie chart will go -->
           <div id="pie5"></div>
         </div>
+        <!-- Ensure second pie chart takes up remaining 1/2 of the row -->
         <div class = "col-md-6 col-lg-6">
+          <!-- Create pie6 id to identify where the second pie chart will go -->
           <div id="pie6"></div>
         </div>
       </div>
     </div>
-
-
   </div>
-  <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
+  <!-- Link in JavaScript visualization -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <!-- Link in plotly visualization library -->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- Create local link into the app.js file -->
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <!-- Link in ZingChart visualization library -->
   <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
   <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
   ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>  <link href="https://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet">
 
-	<!-- ending script for bootstrap -->
-  <!-- <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-      crossorigin="anonymous">
-      </script> -->
 </body>
 
 </html>
