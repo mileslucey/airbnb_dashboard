@@ -129,67 +129,105 @@ def pricelist(neighborhood):
 # Define the route to "/reviewscorelist/<neighborhood>"
 @app.route("/reviewscorelist/<neighborhood>")
 def reviewscorelist(neighborhood):
+    # Run a query that selects everything from the listings table in the SQLite database that has a review_score_rating greater than 60
     listings_data_5 = pd.read_sql("SELECT * FROM listings WHERE listings.review_scores_rating>60",engine)
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     listings_data_grouped_5 = listings_data_5.loc[(listings_data_5["neighbourhood_group_cleansed"] == neighborhood),:]
+    # Make the review scores column into its own list and put the list into a JSON format
     return jsonify(listings_data_grouped_5["review_scores_rating"].tolist())
 
+# Define the route to "/propertytype/<neighborhood>"
 @app.route("/propertytype/<neighborhood>")
 def property_type(neighborhood):
+    # Run a query that selects everything from the listings table in the SQLite database that has a property type of either townhouse, house, apartment, or condominium (we exclude some of the random property types)
     listings_data_6 = pd.read_sql("SELECT * FROM listings WHERE listings.property_type IN ('Townhouse','House','Apartment','Condominium')",engine)
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     listings_data_grouped_6 = listings_data_6.loc[(listings_data_6["neighbourhood_group_cleansed"] == neighborhood),:]
+    # Put the property types and the counts of each into a dictionary
     property_type_dictionary = listings_data_grouped_6["property_type"].value_counts().to_dict()
+    # Return the JSONified dictionary
     return jsonify(property_type_dictionary)
 
+# Define the route to "/roomtype/<neighborhood>"
 @app.route("/roomtype/<neighborhood>")
 def room_type(neighborhood):
+    # Run a query that selects everything from the listings table in the SQLite database
     listings_data_7 = pd.read_sql("SELECT * FROM listings",engine)
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     listings_data_grouped_7 = listings_data_7.loc[(listings_data_7["neighbourhood_group_cleansed"] == neighborhood),:]
+    # Put the room types and the counts of each into a dictionary
     room_type_dictionary = listings_data_grouped_7["room_type"].value_counts().to_dict()
+    # Return the JSONified dictionary
     return jsonify(room_type_dictionary)
 
+# Define the route to "/cancellationpolicy/<neighborhood>"
 @app.route("/cancellationpolicy/<neighborhood>")
 def cancellation_policy(neighborhood):
+    # Run a query that selects everything from the listings table in the SQLite database
     listings_data_8 = pd.read_sql("SELECT * FROM listings",engine)
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     listings_data_grouped_8 = listings_data_8.loc[(listings_data_8["neighbourhood_group_cleansed"] == neighborhood),:]
+    # Put the cancellation policies and the counts of each into a dictionary
     cancellation_policy_dictionary = listings_data_grouped_8["cancellation_policy"].value_counts().to_dict()
+    # Return the JSONified dictionary
     return jsonify(cancellation_policy_dictionary)
 
+# Define the route to "/bedtype/<neighborhood>"
 @app.route("/bedtype/<neighborhood>")
 def bedtype(neighborhood):
+    # Run a query that selects everything from the listings table in the SQLite database
     listings_data_9 = pd.read_sql("SELECT * FROM listings",engine)
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     listings_data_grouped_9 = listings_data_9.loc[(listings_data_9["neighbourhood_group_cleansed"] == neighborhood),:]
+    # Put the bedtypes and the counts of each into a dictionary
     bed_type_dictionary = listings_data_grouped_9["bed_type"].value_counts().to_dict()
+    # Return the JSONified dictionary
     return jsonify(bed_type_dictionary)
 
+# Define the route to "/reviewcontentlist/<neighborhood>"
 @app.route("/reviewcontentlist/<neighborhood>")
 def reviewcontentlist(neighborhood):
+    # Run a query that selects everything from the property_reviews table and left joins it with the listings table using listing_id in the SQLite database
     reviews_content_data = pd.read_sql("SELECT * FROM property_reviews LEFT JOIN listings ON property_reviews.listing_id = listings.id",engine)
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     reviews_content_data_grouped = reviews_content_data.loc[(reviews_content_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    # Return the JSONified list of all the comments for each neighborhood
     return jsonify(reviews_content_data_grouped["comments"].tolist())
 
+# Define the route to "/superhost/<neighborhood>"
 @app.route("/superhost/<neighborhood>")
 def superhost(neighborhood):
+    # Run a query that selects everything from the airbnb_hosts table and left joins it with the listings table using host_id in the SQLite database
     superhost_data = pd.read_sql("SELECT * FROM airbnb_hosts LEFT JOIN listings ON airbnb_hosts.host_id = listings.host_id",engine)
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     superhost_data_grouped = superhost_data.loc[(superhost_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    # Put the host_is_superhost booleans and the counts of each into a dictionary
     superhost_dictionary = superhost_data_grouped["host_is_superhost"].value_counts().to_dict()
+    # Return the JSONified dictionary
     return jsonify(superhost_dictionary)
 
+# Define the route to "/identityverified/<neighborhood>"
 @app.route("/identityverified/<neighborhood>")
 def identityverfified(neighborhood):
+    # Run a query that selects everything from the airbnb_hosts table and left joins it with the listings table using host_id in the SQLite database
     identityverfified_data = pd.read_sql("SELECT * FROM airbnb_hosts LEFT JOIN listings ON airbnb_hosts.host_id = listings.host_id",engine)
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     identityverfified_data_grouped = identityverfified_data.loc[(identityverfified_data["neighbourhood_group_cleansed"] == neighborhood),:]
+    # Put the host_identity_verified booleans and the counts of each into a dictionary
     identityverfified_dictionary = identityverfified_data_grouped["host_identity_verified"].value_counts().to_dict()
+    # Return the JSONified dictionary
     return jsonify(identityverfified_dictionary)
 
+# Define the route to "/listingscount/<neighborhood>"
 @app.route("/listingscount/<neighborhood>")
 def listingscount(neighborhood):
+    # Run a query that selects everything from the airbnb_hosts table and left joins it with the listings table using host_id in the SQLite database and only includes rows with host_listings_count less than 34
     listingscount_data = pd.read_sql("SELECT * FROM airbnb_hosts LEFT JOIN listings ON airbnb_hosts.host_id = listings.host_id WHERE airbnb_hosts.host_listings_count<34",engine)
-    #  WHERE airbnb_hosts.host_response_rate IS NOT NULL
+    # Ensure neighborhood column is equal to the chosen neighborhood (in the path)
     listingscount_data_grouped = listingscount_data.loc[(listingscount_data["neighbourhood_group_cleansed"] == neighborhood),:]
-    # identityverfified_dictionary = identityverfified_data_grouped["host_identity_verified"].value_counts().to_dict()
+    # Return the JSONified list of all the counts of the numbers of listings the hosts own
     return jsonify(listingscount_data_grouped["host_listings_count"].tolist())
     
-
-
+# Run the application
 if __name__ == "__main__":
     app.run()
