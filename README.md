@@ -12,6 +12,12 @@
     * 318 Cemtral Area listings
     * 449 Downtown listings
     * 102 Beacon Hill listings
+## Tools Used
+* Back end database: SQLite
+* Front end: HML, CSS, JavaScript
+* Connecting front end and back end: Python (SQLAlchemy and Flask)
+* Charts: JavaScript libraries (Plotly and ZingChart)
+* Deploying application: Heroku
 ## Final Product
 * See the deployed web application here: https://airbnb-dashboard-seattle.herokuapp.com/
 ![](images/final_product_1.png)
